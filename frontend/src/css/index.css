@@ -42,7 +42,7 @@ h1 {
 /* 5. ИНПУТЫ: Невесомые белые линии */
 #login-form input {
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 55px;
     padding: 12px 0;
     color: #ffffff;
@@ -57,7 +57,6 @@ h1 {
 #login-form input:focus {
     background: #ffffff;
     color: #000814;
-    border-color: #ffffff;
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
     letter-spacing: 0.8rem;
     transform: scale(1.05);
