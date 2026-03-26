@@ -62,6 +62,20 @@ h1 {
     transform: scale(1.05);
 }
 
+#login-form input::placeholder {
+    background: transparent;
+    color: #ffffff;
+    align-items: center;
+    letter-spacing: 0.6rem;
+    transition: all 0.5s ease;
+}
+
+#login-form input:focus::placeholder {
+    background: transparent;
+    color: #000814;
+    letter-spacing: 0.8rem;
+}
+
 /* Убираем "колхозную" полоску, заменяем на пустоту */
 hr {
     border: none;
