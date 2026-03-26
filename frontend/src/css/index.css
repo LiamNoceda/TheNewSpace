@@ -42,8 +42,8 @@ h1 {
 /* 5. ИНПУТЫ: Невесомые белые линии */
 #login-form input {
     background: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 55px;
     padding: 12px 0;
     color: #ffffff;
     font-size: 1rem;
@@ -55,8 +55,11 @@ h1 {
 
 /* При наведении/фокусе линия "проявляется" чистым белым */
 #login-form input:focus {
-    border-bottom-color: #ffffff;
-    letter-spacing: 3px;
+    background: #ffffff;
+    color: #000814;
+    border-color: #ffffff;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.8rem;
     transform: scale(1.05);
 }
 
