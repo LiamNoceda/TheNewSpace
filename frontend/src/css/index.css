@@ -63,17 +63,22 @@ h1 {
 }
 
 #login-form input::placeholder {
+    margin-bottom: 2rem;
     background: transparent;
     color: #ffffff;
-    align-items: center;
-    letter-spacing: 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 1rem;
     transition: all 0.5s ease;
+    width: 400px;
+    text-transform: uppercase;
+    cursor: pointer;
+    align-items: center;
 }
 
 #login-form input:focus::placeholder {
-    background: transparent;
     color: #000814;
-    letter-spacing: 0.8rem;
+    letter-spacing: 1rem;
 }
 
 /* Убираем "колхозную" полоску, заменяем на пустоту */
