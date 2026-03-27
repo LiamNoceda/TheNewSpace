@@ -1,40 +1,56 @@
-/* 1. БЕЗДНА: Глубокое холодное пространство со звездами */
+/* 1. БАЗОВЫЕ НАСТРОЙКИ */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
     --bg: #000814;
     --accent: #ffffff;
     --dim: rgba(255, 255, 255, 0.2);
-    /* Цвет звездного мерцания */
     --star-color: rgba(255, 255, 255, 0.4);
+    /* Текстура шума для имитации блюра (очень легкая) */
+    --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 body {
-    /* Основной градиент + слои звезд */
-    background: 
-        radial-gradient(1px 1px at 20px 30px, var(--star-color), transparent),
-        radial-gradient(1.5px 1.5px at 100px 150px, var(--accent), transparent),
-        radial-gradient(1px 1px at 250px 350px, var(--star-color), transparent),
-        radial-gradient(2px 2px at 450px 100px, var(--accent), transparent),
-        radial-gradient(circle at center, #001f3f 0%, var(--bg) 100%);
-    background-size: 550px 550px, 400px 400px, 300px 300px, 600px 600px, 100% 100%;
     background-color: var(--bg);
+    /* Только основной градиент глубины, без звезд */
+    background: radial-gradient(circle at center, #001f3f 0%, var(--bg) 100%);
     height: 100vh;
     display: flex;
     flex-direction: row;
     font-family: 'Inter', sans-serif;
     color: var(--accent);
     overflow: hidden;
-    animation: spaceMove 100s linear infinite; /* Медленное вращение космоса */
+}
+
+/* 2. ОПТИМИЗИРОВАННЫЙ КОСМОС (GPU) */
+.stars-layer {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: 0;
+    pointer-events: none;
+    background-image: 
+        radial-gradient(1px 1px at 20px 30px, var(--star-color), transparent),
+        radial-gradient(1.5px 1.5px at 100px 150px, var(--accent), transparent),
+        radial-gradient(1px 1px at 250px 350px, var(--star-color), transparent),
+        radial-gradient(2px 2px at 450px 100px, var(--accent), transparent);
+    background-size: 550px 550px, 400px 400px, 300px 300px, 600px 600px;
+    /* Анимация через transform — это секрет отсутствия лагов */
+    animation: spaceMove 120s linear infinite;
+    will-change: transform;
 }
 
 @keyframes spaceMove {
-    from { background-position: 0 0, 0 0, 0 0, 0 0, center; }
-    to { background-position: 550px 1100px, -400px 800px, 300px -600px, 1200px 1200px, center; }
+    from { transform: translate(0, 0); }
+    to { transform: translate(150px, 150px); }
 }
 
-/* 2. ВЕРТИКАЛЬНАЯ НАВИГАЦИЯ (Рельс) */
+/* 3. ВЕРТИКАЛЬНАЯ НАВИГАЦИЯ (Имитация стекла) */
 .side-raile {
+    position: relative;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     width: 60px;
@@ -42,12 +58,14 @@ body {
     border-right: 1px solid var(--dim);
     padding: 30px 0;
     align-items: center;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(15px);
-    z-index: 10;
+    /* Заменяем backdrop-filter на наложение шума */
+    background: rgba(0, 8, 20, 0.4);
+    background-image: var(--noise);
+    background-blend-mode: overlay;
+    opacity: 0.9;
+    box-shadow: inset -1px 0 20px rgb(255, 255, 255, 0.03);
 }
 
-/* Текст вертикально (сверху вниз) */
 .side-raile a {
     writing-mode: vertical-rl;
     text-orientation: mixed;
@@ -57,19 +75,21 @@ body {
     letter-spacing: 0.5rem;
     text-transform: uppercase;
     margin-bottom: 50px;
-    transition: 0.6s cubic-bezier(0.2, 1, 0.2, 1);
+    transition: 0.4s cubic-bezier(0.2, 1, 0.2, 1);
 }
 
 .side-raile a:hover {
     color: var(--accent);
     text-shadow: 0 0 20px var(--accent);
-    transform: translateY(-5px); /* Легкий взлет */
+    transform: translateY(-5px);
 }
 
 .spacer { flex: 1; }
 
-/* 3. ГЛАВНОЕ ПОЛОТНО (Viewport) */
+/* 4. ГЛАВНОЕ ПОЛОТНО */
 .viewport {
+    position: relative;
+    z-index: 5;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -87,23 +107,35 @@ body {
     opacity: 0.6;
     color: var(--accent);
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-    animation: breathe 4s infinite ease-in-out;
+    /* Убрали анимированный letter-spacing (он сильно лагает) */
+    animation: breathe 5s infinite ease-in-out;
 }
 
 @keyframes breathe {
-    0%, 100% { opacity: 0.4; letter-spacing: 0.8rem; }
-    50% { opacity: 0.8; letter-spacing: 0.9rem; }
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
 }
 
-/* 4. ПРАВАЯ ПАНЕЛЬ (Info) */
+/* 5. ПРАВАЯ ПАНЕЛЬ (Info) */
 .info-panel {
+    position: relative;
+    z-index: 10;
     width: 260px;
     border-left: 1px solid var(--dim);
     padding: 50px 30px;
     display: flex;
     flex-direction: column;
     gap: 40px;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 8, 20, 0.3);
+    background-image: var(--noise);
+    background-blend-mode: overlay;
+}
+
+/* СЕТКА КОНТЕНТА */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 40px;
 }
 
 /* АДАПТИВНОСТЬ */
@@ -129,9 +161,3 @@ body {
     }
 }
 
-/* 5. VR/AR/Desktop Элементы контента (миры) */
-.content-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 40px;
-}
