@@ -11,9 +11,6 @@ body {
     font-family: 'Inter', -apple-system, sans-serif;
     color: #ffffff;
     overflow: hidden;
-    /* Убираем лишние перерисовки при скролле */
-    position: fixed; 
-    width: 100%;
 }
 
 /* 2. ПАРЯЩИЙ КОНТЕЙНЕР */
